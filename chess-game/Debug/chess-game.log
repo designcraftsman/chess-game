@@ -1,2 +1,9 @@
-﻿  chess-game.cpp
+﻿  Board.cpp
+C:\Users\fzous\Desktop\games\chess-game\chess-game\Board.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\fzous\Desktop\games\chess-game\chess-game\Board.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\fzous\Desktop\games\chess-game\chess-game\Board.cpp(6,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\fzous\Desktop\games\chess-game\chess-game\Board.cpp(7,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\fzous\Desktop\games\chess-game\chess-game\Board.cpp(8,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\fzous\Desktop\games\chess-game\chess-game\Board.cpp(9,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\fzous\Desktop\games\chess-game\chess-game\Board.cpp(10,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   chess-game.vcxproj -> C:\Users\fzous\Desktop\games\chess-game\chess-game\Debug\chess-game.exe
