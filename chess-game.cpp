@@ -1,5 +1,10 @@
 // Start of wxWidgets "Hello World" Program
+
+
 #include <wx/wx.h>
+#include "Board.h"
+
+using namespace Entities;
 
 class MyApp : public wxApp
 {
@@ -32,6 +37,8 @@ bool MyApp::OnInit()
     return true;
 }
 
+
+
 MyFrame::MyFrame()
     : wxFrame(nullptr, wxID_ANY, "Hello World")
 {
@@ -52,10 +59,18 @@ MyFrame::MyFrame()
 
     CreateStatusBar();
     SetStatusText("Welcome to wxWidgets!");
+    
+    Board board = Board();
+
+    std::string text = board.printBoard();
+
+    SetStatusText(text);
 
     Bind(wxEVT_MENU, &MyFrame::OnHello, this, ID_Hello);
     Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
+   
+
 }
 
 void MyFrame::OnExit(wxCommandEvent& event)
