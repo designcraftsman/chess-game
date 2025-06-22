@@ -12,6 +12,7 @@ class Board
 
 	public:
 		Board();
+		Board(Player* player1,Player* player2);
 		std::map<std::string, int> getPieces();
 		std::string printBoard();
 };

@@ -110,5 +110,6 @@ Piece* Player::findPieceById(int id) {
 
 std::vector<std::string> Player::selectPiece(int id) {
 	Piece* piece = this->findPieceById(id);
-	return piece->getPossibleMovements();
+	std::vector<std::string> positions = piece->getPossibleMovements();
+	return positions;
 }

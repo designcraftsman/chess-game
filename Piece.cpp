@@ -4,7 +4,7 @@
 
 using namespace Entities;
 
-static int ID_INCREMENT = 1;
+static int ID_INCREMENT = 2;
 
 Piece::Piece(std::string position) {
 	this->id = ID_INCREMENT;
