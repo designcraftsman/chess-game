@@ -3,5 +3,5 @@
 using namespace Entities;
 
 Bishop::Bishop() {
-	Bishop::name = "bishop";
+	Bishop::name = "BISHOP";
 }

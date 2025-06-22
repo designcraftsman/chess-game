@@ -3,5 +3,5 @@
 using namespace Entities;
 
 Pawn::Pawn() {
-	this->name = "pawn";
+	this->name = "PAWN";
 }

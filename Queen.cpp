@@ -3,5 +3,5 @@
 using namespace Entities;
 
 Queen::Queen() {
-	this->name = "queen";
+	this->name = "QUEEN";
 }
