@@ -7,5 +7,5 @@ MainFrame::MainFrame(const wxString& title):wxFrame(nullptr,wxID_ANY,title){
 	
 	Entities::Board* board = new Entities::Board();
 	std::string stringBoard = board->printBoard();
-	wxStaticText* staticBoard = new wxStaticText(panel, wxID_ANY,stringBoard, wxPoint(50, 50));
+	wxStaticText* staticBoard = new wxStaticText(panel, wxID_ANY,stringBoard, wxPoint(50, 50),wxSize(900,500));
 }

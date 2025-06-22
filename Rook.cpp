@@ -3,5 +3,5 @@
 using namespace Entities;
 
 Rook::Rook() {
-	this->name = "rook";
+	this->name = "ROOK";
 }
