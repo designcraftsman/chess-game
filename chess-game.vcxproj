@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="chess-game.h" />
@@ -141,11 +142,12 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Rook.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="MainFrame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
-    <ClCompile Include="chess-game.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
     <ClCompile Include="Pawn.cpp" />
@@ -154,6 +156,7 @@
     <ClCompile Include="Positions.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
+    <ClCompile Include="MainFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="chess-game.rc" />
