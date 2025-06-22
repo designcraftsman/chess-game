@@ -19,17 +19,17 @@ using namespace Entities;
 Board::Board() {
 	Piece pawn = Pawn();
 	for (int i = 1; i < 9; i++) {
-		std::string key = "B "+i;
+		std::string key ="B"+ std::to_string(i);
 		this->pieces[key].assign(pawn.getName());
 	}
 	for (int i = 1; i < 9; i++) {
-		std::string key = "G" + i;
+		std::string key = "G" + std::to_string(i);
 		this->pieces[key].assign(pawn.getName());
 	}
 	int j = 9;
 	for (int i = 1; i < 4; i++) {
-		std::string key1 = "A" + i;
-		std::string key2 = "A" + j;
+		std::string key1 = "A" + std::to_string(i);
+		std::string key2 = "A" + std::to_string(j);
 		
 		if (i == 1) {
 			Piece rook = Rook();
@@ -58,15 +58,22 @@ Board::Board() {
 std::string Board::printBoard() {
 	std::cout << "\n\n\n";
 	std::string text;
+	std::string message;
 
-	for (int i = 1; i < 2; i++) {
-		std::string key1 = "B";
-		std::string message;
-		for (const auto& pair : this->pieces) {
-			message.assign("Key: " + pair.first + ", Value: " + pair.second + "\n");
+	for (const auto& pair : this->pieces) {
+		message = "";
+		message.assign(pair.first + "=" + pair.second + ",\t");
+		if (pair.first == "A8" ||
+			pair.first == "B8" ||
+			pair.first == "C8" ||
+			pair.first == "D8" ||
+			pair.first == "E8" ||
+			pair.first == "F8" ||
+			pair.first == "G8") {
+			text.assign(text + message + "\n");
+			break;
+		}else
 			text.assign(text+message);
-		}
 	}
-
 	return text;
 }
