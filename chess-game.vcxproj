@@ -137,7 +137,6 @@
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Positions.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Rook.h" />
@@ -153,7 +152,6 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Positions.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="MainFrame.cpp" />

@@ -14,10 +14,8 @@
 
 using namespace Entities;
 
-Board::Board() {
+Board::Board(Player* player1,Player* player2) {
 
-	Player* player1 = new Player(1);
-	Player* player2 = new Player(2);
 	std::list<Piece*>::iterator it;
 	
 
