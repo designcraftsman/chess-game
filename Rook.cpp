@@ -2,6 +2,6 @@
 
 using namespace Entities;
 
-Rook::Rook() {
-	this->name = "ROOK";
+Rook::Rook(std::string position):Piece(position) {
+
 }

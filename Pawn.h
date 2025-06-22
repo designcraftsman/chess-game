@@ -5,6 +5,6 @@ namespace Entities {
 	class Pawn : public Piece
 	{
 	public:
-		Pawn();
+		Pawn(std::string position);
 	};
 }

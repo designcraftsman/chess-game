@@ -8,10 +8,11 @@ class Board
 		int id;
 		Entities::Player player1;
 		Entities::Player player2;
-		std::map<std::string, std::string> pieces;
+		std::map<std::string, int> pieces;
 
 	public:
 		Board();
+		std::map<std::string, int> getPieces();
 		std::string printBoard();
 };
 }

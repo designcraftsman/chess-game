@@ -2,6 +2,6 @@
 
 using namespace Entities;
 
-Queen::Queen() {
-	this->name = "QUEEN";
+Queen::Queen(std::string position):Piece(position) {
+
 }
