@@ -2,19 +2,25 @@
 #include <string>
 #include <map>
 #include "Piece.h"
+#include <vector>
+#include <list>
+
 namespace Entities {
 
 
 	class Player
 	{
-	private:
+	protected:
 		int id;
 		std::string name;
-		std::map<Entities::Piece, int > pieces;
-
+		std::list<Piece*> pieces;
 	public:
-		void selectPiece(int id);
+		Player();
+		Player(int id);
+		std::list<Piece*> getPieces();
+		std::vector<std::string> selectPiece(int id);
 		void movePiece(int id, std::string selectedPosition);
 		bool isPlayerTurn();
+		Piece* findPieceById(int id);
 	};
 }

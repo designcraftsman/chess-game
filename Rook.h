@@ -5,6 +5,6 @@ namespace Entities {
 	class Rook: public Piece
 	{
 	public:
-		Rook();
+		Rook(std::string position);
 	};
 }

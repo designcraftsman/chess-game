@@ -2,6 +2,6 @@
 
 using namespace Entities;
 
-King::King() {
-	this->name = "KING";
+King::King(std::string position) :Piece(position) {
+
 }

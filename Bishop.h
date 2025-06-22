@@ -5,6 +5,6 @@ namespace Entities {
 	class Bishop: public Piece
 	{
 	public:
-		Bishop();
+		Bishop(std::string position);
 	};
 }

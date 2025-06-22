@@ -2,6 +2,6 @@
 
 using namespace Entities;
 
-Bishop::Bishop() {
-	Bishop::name = "BISHOP";
+Bishop::Bishop(std::string position):Piece(position) {
+	
 }
