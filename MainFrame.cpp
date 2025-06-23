@@ -45,6 +45,5 @@ MainFrame::MainFrame(const wxString& title):wxFrame(nullptr,wxID_ANY,title){
 
 void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 	std::vector<std::string> possible_positions = this->player1->selectPiece(int(evt.GetId()));
-	std::string position1 = possible_positions.at(1);
-	wxLogStatus("Piece selected:" + position1);
+	wxLogStatus("position 1 = " + possible_positions.at(0) + " position 2 = " + possible_positions.at(1) + " position 3 = " + possible_positions.at(2) + " position 4 = " + possible_positions.at(3));
 }

@@ -15,7 +15,7 @@ std::vector<std::string> Piece::getPossibleMovements() {
     char letter = current_position[0];
     char number = current_position[1];
 
-    char forward_2 = letter - 2;
+    char forward_2 = int(letter) + 2;
     char forward_1 = letter - 1;
     char attack_left = number - 1;
     char attack_right = number + 1;
