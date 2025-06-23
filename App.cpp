@@ -4,6 +4,7 @@
 
 wxIMPLEMENT_APP(App);
 
+
 bool App::OnInit() {
 	MainFrame* mainFrame = new MainFrame("Chess Game");
 	mainFrame->SetClientSize(900, 600);
