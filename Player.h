@@ -21,5 +21,6 @@ namespace Entities {
 		std::vector<std::string> selectPiece(int id);
 		bool isPlayerTurn();
 		Piece* findPieceById(int id);
+		void removePiece(int idPiece);
 	};
 }

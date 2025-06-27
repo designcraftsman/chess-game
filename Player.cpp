@@ -116,3 +116,14 @@ std::vector<std::string> Player::selectPiece(int id) {
 	return positions;
 }
 
+
+void Player::removePiece(int idPiece) {
+	for (auto it = this->pieces.begin(); it != this->pieces.end(); ++it) {
+		if ((*it)->getId() == idPiece) {
+			this->pieces.erase(it);
+			break; 
+		}
+	}
+}
+
+

@@ -9,6 +9,7 @@ public:
 	MainFrame(const wxString& title);
 	void UpdateUI();
 	boolean isLegalMove();
+	boolean isAttack(int idPiece);
 private:
 	int selectedPiece;
 	boolean isPlayer1Turn;
