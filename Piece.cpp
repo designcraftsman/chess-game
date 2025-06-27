@@ -24,6 +24,10 @@ std::string Piece::getPosition() {
 	return this->position;
 }
 
+void Piece::movePiece(std::string movingPosition) {
+	this->position = movingPosition;
+}
+
 
 
 

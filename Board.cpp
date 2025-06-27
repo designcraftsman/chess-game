@@ -46,8 +46,52 @@ Board::Board(Player* player1,Player* player2) {
 }
 
 
-
-
 std::map<std::string, int> Board::getPieces() {
 	return this->pieces;
+}
+
+
+std::vector<std::string> Board::PossibleMovements(std::string currentPosition,std::vector<std::string> positions, Player* adversary) {
+	std::vector<std::string> possible_movements;
+	int id = 100;
+	for (const std::string& position : positions) {
+		if (this->pieces[position] == 0) {
+			if (currentPosition[1] == position[1]) {
+				this->pieces[position] = id;
+				possible_movements.push_back(position);
+				id += 100;
+			}
+			else if (adversary->findPieceById(this->pieces[position])) {
+				this->pieces[position] = id;
+				possible_movements.push_back(position);
+				id += 100;
+			}
+			else
+				this->pieces[position] = 0;
+		}
+	}
+	return possible_movements;
+}
+
+void Board::updateBoard(Player* player1, Player* player2,std::vector<std::string> previousPossiblePositions ,std::string previousPosition,std::string movingPosition) {
+	std::list<Piece*>::iterator it;
+	
+	for (auto const& i : previousPossiblePositions) {
+		if (!(i == movingPosition))
+			this->pieces[i] = 0;
+	}
+
+	for (auto const& i : player1->getPieces()) {
+		this->pieces[i->getPosition()] = i->getId();
+	}
+
+	for (auto const& i : player2->getPieces()) {
+		this->pieces[i->getPosition()] = i->getId();
+	}
+
+	for (auto const& i : this->pieces) {
+		if (i.first == previousPosition) {
+			this->pieces[i.first] = 0;
+		}
+	}
 }

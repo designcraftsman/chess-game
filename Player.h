@@ -19,7 +19,6 @@ namespace Entities {
 		Player(int id);
 		std::list<Piece*> getPieces();
 		std::vector<std::string> selectPiece(int id);
-		void movePiece(int id, std::string selectedPosition);
 		bool isPlayerTurn();
 		Piece* findPieceById(int id);
 	};
