@@ -7,9 +7,16 @@ class MainFrame :public wxFrame
 {
 public:
 	MainFrame(const wxString& title);
+	void UpdateUI();
 private:
+	int selectedPiece;
+	std::map<int, std::string> boardPositions;
 	void OnPieceSelected(wxMouseEvent& evt);
+	void OnPieceMoved(wxMouseEvent& evt);
+	std::string movingPosition;
+	std::vector<std::string> possiblePositions;
 	Entities::Player* player1;
 	Entities::Player* player2;
 	Entities::Board* board;
+	wxPanel* panel;
 };

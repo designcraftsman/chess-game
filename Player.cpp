@@ -18,6 +18,7 @@ Player::Player() {
 
 Player::Player(int id) {
 	if (id == 1) {
+		this->id == 1;
 		for (int i = 1; i < 9; i++) {
 			std::string key = "B" + std::to_string(i);
 			Piece* pawn = new Pawn(key);
@@ -56,6 +57,7 @@ Player::Player(int id) {
 		}
 	}
 	if(id == 2){
+		this->id = 2;
 		for (int i = 1; i < 9; i++) {
 			std::string key = "G" + std::to_string(i);
 			Piece* pawn = new Pawn(key);
@@ -110,6 +112,7 @@ Piece* Player::findPieceById(int id) {
 
 std::vector<std::string> Player::selectPiece(int id) {
 	Piece* piece = this->findPieceById(id);
-	std::vector<std::string> positions = piece->getPossibleMovements();
+	std::vector<std::string> positions = piece->getPossibleMovements(this->id);
 	return positions;
 }
+
