@@ -20,12 +20,12 @@ std::vector<std::string> Piece::getPossibleMovements(int idPlayer) {
     char forward_1;
 
     if (idPlayer == 1) {
-        forward_2 = letter - 2;
-        forward_1 = letter - 1;
-    }
-    else {
         forward_2 = letter + 2;
         forward_1 = letter + 1;
+    }
+    else {
+        forward_2 = letter - 2;
+        forward_1 = letter - 1;
     }
     char attack_left = number - 1;
     char attack_right = number + 1;
