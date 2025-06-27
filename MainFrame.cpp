@@ -9,6 +9,7 @@
 MainFrame::MainFrame(const wxString& title):wxFrame(nullptr,wxID_ANY,title){
 	this->panel = new wxPanel(this);
 	this->panel->Center();
+	this->isPlayer1Turn = true;
 	this->player1 = new Entities::Player(1);
 	this->player2 = new Entities::Player(2);
 	this->board = new Entities::Board(player1,player2);
@@ -20,27 +21,55 @@ MainFrame::MainFrame(const wxString& title):wxFrame(nullptr,wxID_ANY,title){
 void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 	if (!this->selectedPiece) {
 		this->selectedPiece = int(evt.GetId());
-		std::vector<std::string> possible_positions = this->player1->selectPiece(this->selectedPiece);
-		Entities::Piece* piece = this->player1->findPieceById(this->selectedPiece);
-		std::string current_position = piece->getPosition();
-		std::vector<std::string>possible_movements = this->board->PossibleMovements(current_position, possible_positions, this->player2);
-		this->possiblePositions = possible_movements;
-		wxLogStatus("position 1 = " + possible_positions.at(0) + " position 2 = " + possible_positions.at(1) + " position 3 = " + possible_positions.at(2) + " position 4 = " + possible_positions.at(3));
-		this->UpdateUI();
+		if (this->isPlayer1Turn) {
+			std::vector<std::string> possible_positions = this->player1->selectPiece(this->selectedPiece);
+			Entities::Piece* piece = this->player1->findPieceById(this->selectedPiece);
+			std::string current_position = piece->getPosition();
+			std::vector<std::string>possible_movements = this->board->PossibleMovements(current_position, possible_positions, this->player2);
+			this->possiblePositions = possible_movements;
+			this->UpdateUI();
+		}
+		else {
+			std::vector<std::string> possible_positions = this->player2->selectPiece(this->selectedPiece);
+			Entities::Piece* piece = this->player2->findPieceById(this->selectedPiece);
+			std::string current_position = piece->getPosition();
+			std::vector<std::string>possible_movements = this->board->PossibleMovements(current_position, possible_positions, this->player1);
+			this->possiblePositions = possible_movements;
+			this->UpdateUI();
+		}
 	}
 }
 
 void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 	if (this->selectedPiece) {
 		this->movingPosition = this->boardPositions[int(evt.GetId())];
-		Entities::Piece* piece = this->player1->findPieceById(this->selectedPiece);
-		std::string previousPosition = piece->getPosition();
-		piece->movePiece(this->movingPosition);
-		this->board->updateBoard(this->player1, this->player2,this->possiblePositions,previousPosition,this->movingPosition);
-		wxLogStatus("Selected Position is :" + this->boardPositions[int(evt.GetId())] + "Moving piece: " + previousPosition + " to: " + this->movingPosition);
-		this->selectedPiece = NULL;
-		this->UpdateUI();
+		if (isLegalMove()) {
+			if (this->isPlayer1Turn) {
+				Entities::Piece* piece = this->player1->findPieceById(this->selectedPiece);
+				std::string previousPosition = piece->getPosition();
+				piece->movePiece(this->movingPosition);
+				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
+				this->selectedPiece = NULL;
+				this->boardPositions.clear();
+				this->isPlayer1Turn = false;
+				this->UpdateUI();
+			}
+			else {
+				Entities::Piece* piece = this->player2->findPieceById(this->selectedPiece);
+				std::string previousPosition = piece->getPosition();
+				piece->movePiece(this->movingPosition);
+				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
+				this->selectedPiece = NULL;
+				this->isPlayer1Turn = true;
+				this->boardPositions.clear();
+				this->UpdateUI();
+			}
+		}
+		else {
+			wxLogStatus("illegal move");
+		}
 	}
+
 }
 
 
@@ -79,5 +108,12 @@ void MainFrame::UpdateUI() {
 			y += 50;
 		}
 	}
-
+}
+	
+boolean MainFrame::isLegalMove() {
+	for (const auto& i : this->possiblePositions) {
+		if (this->movingPosition == i)
+			return true;
+	}
+	return false;
 }

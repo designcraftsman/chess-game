@@ -18,7 +18,7 @@ Player::Player() {
 
 Player::Player(int id) {
 	if (id == 1) {
-		this->id == 1;
+		this->id = 1;
 		for (int i = 1; i < 9; i++) {
 			std::string key = "B" + std::to_string(i);
 			Piece* pawn = new Pawn(key);
