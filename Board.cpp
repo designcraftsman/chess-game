@@ -61,13 +61,11 @@ std::vector<std::string> Board::PossibleMovements(std::string currentPosition,st
 				possible_movements.push_back(position);
 				id += 100;
 			}
-			else if (adversary->findPieceById(this->pieces[position])) {
-				this->pieces[position] = id;
-				possible_movements.push_back(position);
-				id += 100;
-			}
-			else
-				this->pieces[position] = 0;
+		}
+		if (adversary->findPieceById(this->pieces[position])) {
+			this->pieces[position] = id;
+			possible_movements.push_back(position);
+			id += 100;
 		}
 	}
 	return possible_movements;

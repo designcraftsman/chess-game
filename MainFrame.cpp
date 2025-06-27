@@ -28,6 +28,7 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 			std::vector<std::string>possible_movements = this->board->PossibleMovements(current_position, possible_positions, this->player2);
 			this->possiblePositions = possible_movements;
 			this->UpdateUI();
+			wxLogStatus("possible position 0:" + possible_positions.at(0) + "possible position 1:" + possible_positions.at(1) + "possible position 2:" + possible_positions.at(2) + "possible position 3:" + possible_positions.at(3));
 		}
 		else {
 			std::vector<std::string> possible_positions = this->player2->selectPiece(this->selectedPiece);
@@ -36,6 +37,7 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 			std::vector<std::string>possible_movements = this->board->PossibleMovements(current_position, possible_positions, this->player1);
 			this->possiblePositions = possible_movements;
 			this->UpdateUI();
+			wxLogStatus("possible position 0:" + possible_positions.at(0) + "possible position 1:" + possible_positions.at(1) + "possible position 2:" + possible_positions.at(2) + "possible position 3:" + possible_positions.at(3));
 		}
 	}
 }
@@ -43,12 +45,16 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 	if (this->selectedPiece) {
 		this->movingPosition = this->boardPositions[int(evt.GetId())];
-		if (isLegalMove()) {
+		int idPiece = int(evt.GetId());
+		if (isLegalMove()){
 			if (this->isPlayer1Turn) {
 				Entities::Piece* piece = this->player1->findPieceById(this->selectedPiece);
 				std::string previousPosition = piece->getPosition();
 				piece->movePiece(this->movingPosition);
 				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
+				if (this->isAttack(idPiece)) {
+					this->player1->removePiece(idPiece);
+				}
 				this->selectedPiece = NULL;
 				this->boardPositions.clear();
 				this->isPlayer1Turn = false;
@@ -59,6 +65,9 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				std::string previousPosition = piece->getPosition();
 				piece->movePiece(this->movingPosition);
 				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
+				if (this->isAttack(idPiece)) {
+					this->player2->removePiece(idPiece);
+				}
 				this->selectedPiece = NULL;
 				this->isPlayer1Turn = true;
 				this->boardPositions.clear();
@@ -116,4 +125,11 @@ boolean MainFrame::isLegalMove() {
 			return true;
 	}
 	return false;
+}
+
+boolean MainFrame::isAttack(int idPiece) {
+	if (isPlayer1Turn)
+		return (this->player2->findPieceById(idPiece)) == NULL;
+	else
+		return this->player1->findPieceById(idPiece) == NULL;
 }
