@@ -14,29 +14,32 @@ std::vector<std::string> Rook::getPossibleMovements(int idPlayer) {
     char letter = current_position[0];
     char number = current_position[1];
 
+    letter -= 1;
+    while (letter >= 'A') {
+        positions.push_back(std::string(1, letter) + number);
+        letter -= 1;
+    }
 
-    char up_2 = letter - 2;
-    char up_1 = letter - 1;
-    char down_2 = letter + 2;
-    char down_1 = letter + 1;
+    letter = current_position[0];
+    letter += 1;
+    while (letter <= 'H') {
+        positions.push_back(std::string(1, letter) + number);
+        letter += 1;
+    }
 
-    char left_2 = number - 2;
-    char left_1 = number - 1;
-    char right_2 = number + 2;
-    char right_1 = number + 1;
+    letter = current_position[0];
+    number -= 1;
+    while (number >= '1') {
+        positions.push_back(letter + std::string(1, number));
+        number -= 1;
+    }
 
-
-    positions.push_back(std::string(1, up_2) + std::string(1, left_1));
-    positions.push_back(std::string(1, up_2) + std::string(1, right_1));
-
-    positions.push_back(std::string(1, down_2) + std::string(1, left_1));
-    positions.push_back(std::string(1, down_2) + std::string(1, right_1));
-
-    positions.push_back(std::string(1, up_1) + std::string(1, left_2));
-    positions.push_back(std::string(1, up_1) + std::string(1, right_2));
-
-    positions.push_back(std::string(1, down_1) + std::string(1, left_2));
-    positions.push_back(std::string(1, down_1) + std::string(1, right_2));
+    number = current_position[1];
+    number += 1;
+    while (number <= '8') {
+        positions.push_back( letter + std::string(1, number));
+        number += 1;
+    }
 
 
     return positions;

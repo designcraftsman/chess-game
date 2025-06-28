@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Knight.h"
 #include "Bishop.h"
+#include "Rook.h"
 #include "King.h"
 #include <string>
 
@@ -45,6 +46,10 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 				std::vector<std::string>possible_movements = this->board->PossibleKingMovements(current_position, possible_positions,  this->player2);
 				this->possiblePositions = possible_movements;
 			}
+			else if (dynamic_cast<Entities::Rook*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleRookMovements(current_position, possible_positions, this->player1, this->player2);
+				this->possiblePositions = possible_movements;
+			}
 			else {
 				wxLogStatus("Piece type not found");
 				return;
@@ -70,6 +75,10 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 			}
 			else if (dynamic_cast<Entities::King*>(piece)) {
 				std::vector<std::string>possible_movements = this->board->PossibleKingMovements(current_position, possible_positions, this->player1);
+				this->possiblePositions = possible_movements;
+			}
+			else if (dynamic_cast<Entities::Rook*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleRookMovements(current_position, possible_positions, this->player2,this->player1);
 				this->possiblePositions = possible_movements;
 			}
 			else {
