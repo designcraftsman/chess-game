@@ -51,25 +51,57 @@ std::map<std::string, int> Board::getPieces() {
 }
 
 
-std::vector<std::string> Board::PossibleMovements(std::string currentPosition,std::vector<std::string> positions, Player* adversary) {
+std::vector<std::string> Board::PossiblePawnMovements(std::string currentPosition, std::vector<std::string> positions, Player* adversary) {
 	std::vector<std::string> possible_movements;
 	int id = 100;
+
 	for (const std::string& position : positions) {
-		if (this->pieces[position] == 0) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
+
+		auto pieceValue = this->pieces[position];
+
+		if (pieceValue == 0) {
 			if (currentPosition[1] == position[1]) {
 				this->pieces[position] = id;
 				possible_movements.push_back(position);
 				id += 100;
 			}
 		}
-		if (adversary->findPieceById(this->pieces[position])) {
+		else if (adversary->findPieceById(pieceValue)) {
 			this->pieces[position] = id;
 			possible_movements.push_back(position);
 			id += 100;
 		}
 	}
+
 	return possible_movements;
 }
+
+std::vector<std::string> Board::PossibleKnightMovements(std::string currentPosition, std::vector<std::string> positions, Player* adversary) {
+	std::vector<std::string> possible_movements;
+	int id = 100;
+
+	for (const std::string& position : positions) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
+
+		auto pieceValue = this->pieces[position];
+
+		if (pieceValue == 0) {
+			this->pieces[position] = id;
+			possible_movements.push_back(position);
+			id += 100;
+		}
+		if (adversary->findPieceById(pieceValue)) {
+			this->pieces[position] = id;
+			possible_movements.push_back(position);
+			id += 100;
+		}
+	}
+
+	return possible_movements;
+}
+
+
 
 void Board::updateBoard(Player* player1, Player* player2,std::vector<std::string> previousPossiblePositions ,std::string previousPosition,std::string movingPosition) {
 	std::list<Piece*>::iterator it;

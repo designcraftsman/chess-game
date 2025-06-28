@@ -1,8 +1,10 @@
 #include "MainFrame.h"
 #include <wx/wx.h>
 #include <map>
+#include "Pawn.h"
 #include "Board.h"
 #include "Player.h"
+#include "Knight.h"
 #include <string>
 
 
@@ -25,8 +27,18 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 			std::vector<std::string> possible_positions = this->player1->selectPiece(this->selectedPiece);
 			Entities::Piece* piece = this->player1->findPieceById(this->selectedPiece);
 			std::string current_position = piece->getPosition();
-			std::vector<std::string>possible_movements = this->board->PossibleMovements(current_position, possible_positions, this->player2);
-			this->possiblePositions = possible_movements;
+			if (dynamic_cast<Entities::Pawn*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossiblePawnMovements(current_position, possible_positions, this->player2);
+				this->possiblePositions = possible_movements;
+			}
+			else if (dynamic_cast<Entities::Knight*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleKnightMovements(current_position, possible_positions, this->player2);
+				this->possiblePositions = possible_movements;
+			}
+			else {
+				wxLogStatus("Piece type not found");
+				return;
+			}
 			this->UpdateUI();
 			wxLogStatus("possible position 0:" + possible_positions.at(0) + "possible position 1:" + possible_positions.at(1) + "possible position 2:" + possible_positions.at(2) + "possible position 3:" + possible_positions.at(3));
 		}
@@ -34,8 +46,14 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 			std::vector<std::string> possible_positions = this->player2->selectPiece(this->selectedPiece);
 			Entities::Piece* piece = this->player2->findPieceById(this->selectedPiece);
 			std::string current_position = piece->getPosition();
-			std::vector<std::string>possible_movements = this->board->PossibleMovements(current_position, possible_positions, this->player1);
-			this->possiblePositions = possible_movements;
+			if (dynamic_cast<Entities::Pawn*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossiblePawnMovements(current_position, possible_positions, this->player1);
+				this->possiblePositions = possible_movements;
+			}
+			else if (dynamic_cast<Entities::Knight*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleKnightMovements(current_position, possible_positions, this->player1);
+				this->possiblePositions = possible_movements;
+			}
 			this->UpdateUI();
 			wxLogStatus("possible position 0:" + possible_positions.at(0) + "possible position 1:" + possible_positions.at(1) + "possible position 2:" + possible_positions.at(2) + "possible position 3:" + possible_positions.at(3));
 		}
