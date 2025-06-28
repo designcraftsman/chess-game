@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "Player.h"
 #include "Knight.h"
+#include "Bishop.h"
 #include <string>
 
 
@@ -35,6 +36,10 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 				std::vector<std::string>possible_movements = this->board->PossibleKnightMovements(current_position, possible_positions, this->player2);
 				this->possiblePositions = possible_movements;
 			}
+			else if (dynamic_cast<Entities::Bishop*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleBishopMovements(current_position, possible_positions,this->player1 , this->player2);
+				this->possiblePositions = possible_movements;
+			}
 			else {
 				wxLogStatus("Piece type not found");
 				return;
@@ -54,6 +59,14 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 				std::vector<std::string>possible_movements = this->board->PossibleKnightMovements(current_position, possible_positions, this->player1);
 				this->possiblePositions = possible_movements;
 			}
+			else if (dynamic_cast<Entities::Bishop*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleBishopMovements(current_position, possible_positions, this->player2 ,this->player1);
+				this->possiblePositions = possible_movements;
+			}
+			else {
+				wxLogStatus("Piece type not found");
+				return;
+			}
 			this->UpdateUI();
 			wxLogStatus("possible position 0:" + possible_positions.at(0) + "possible position 1:" + possible_positions.at(1) + "possible position 2:" + possible_positions.at(2) + "possible position 3:" + possible_positions.at(3));
 		}
@@ -69,10 +82,10 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				Entities::Piece* piece = this->player1->findPieceById(this->selectedPiece);
 				std::string previousPosition = piece->getPosition();
 				piece->movePiece(this->movingPosition);
-				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
 				if (this->isAttack(idPiece)) {
 					this->player1->removePiece(idPiece);
 				}
+				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
 				this->selectedPiece = NULL;
 				this->boardPositions.clear();
 				this->isPlayer1Turn = false;
@@ -82,10 +95,10 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				Entities::Piece* piece = this->player2->findPieceById(this->selectedPiece);
 				std::string previousPosition = piece->getPosition();
 				piece->movePiece(this->movingPosition);
-				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
 				if (this->isAttack(idPiece)) {
 					this->player2->removePiece(idPiece);
 				}
+				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
 				this->selectedPiece = NULL;
 				this->isPlayer1Turn = true;
 				this->boardPositions.clear();
