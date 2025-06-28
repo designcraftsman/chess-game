@@ -6,5 +6,6 @@ namespace Entities {
 	{
 	public:
 		Bishop(std::string position);
+		std::vector<std::string> getPossibleMovements(int idPlayer) override;
 	};
 }

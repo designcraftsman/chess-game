@@ -8,7 +8,7 @@ Pawn::Pawn(std::string position) :Piece(position) {
 
 }
 
-std::vector<std::string> Piece::getPossibleMovements(int idPlayer) {
+std::vector<std::string> Pawn::getPossibleMovements(int idPlayer) {
     std::string current_position = this->position;
     std::vector<std::string> positions;
 
@@ -30,10 +30,13 @@ std::vector<std::string> Piece::getPossibleMovements(int idPlayer) {
     char attack_left = number - 1;
     char attack_right = number + 1;
 
+
     positions.push_back(std::string(1, forward_2) + std::string(1, number));
     positions.push_back(std::string(1, forward_1) + std::string(1, number));
+    
     positions.push_back(std::string(1, forward_1) + std::string(1, attack_left));
     positions.push_back(std::string(1, forward_1) + std::string(1, attack_right));
+   
 
     return positions;
 }

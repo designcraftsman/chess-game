@@ -18,7 +18,8 @@ namespace Entities{
 		Piece* selectPiece(int id);
 		std::string getPosition();
 		void movePiece(std::string movingPosition);
-		virtual std::vector<std::string> getPossibleMovements(int idPlayer);
+		virtual std::vector<std::string> getPossibleMovements(int idPlayer) = 0;
+		virtual ~Piece() {}
 	};
 }
 
