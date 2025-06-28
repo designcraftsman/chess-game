@@ -135,6 +135,7 @@ bool Board::isPieceInCollision(std::string position, std::vector<std::string> co
 std::vector<std::string> Board::PossibleBishopMovements(std::string currentPosition, std::vector<std::string> positions, Player* currentPlayer, Player* adversary) {
 	std::vector<std::string> possible_movements;
 	int id = 100;
+	int capture = 0;
 	std::map<std::string,std::string> collision;
 	std::vector<std::string> collisionPositions;
 	
@@ -204,7 +205,8 @@ std::vector<std::string> Board::PossibleBishopMovements(std::string currentPosit
 				possible_movements.push_back(position);
 				id += 100;
 			}
-			if (adversary->findPieceById(pieceValue)) {
+			if (capture <0 && adversary->findPieceById(pieceValue)) {
+				capture += 1;
 				this->pieces[position] = id;
 				possible_movements.push_back(position);
 				id += 100;
@@ -219,6 +221,7 @@ std::vector<std::string> Board::PossibleBishopMovements(std::string currentPosit
 std::vector<std::string> Board::PossibleRookMovements(std::string currentPosition, std::vector<std::string> positions, Player* currentPlayer, Player* adversary) {
 	std::vector<std::string> possible_movements;
 	int id = 100;
+	int capture = 0;
 	std::map<std::string, std::string> collision;
 	std::vector<std::string> collisionPositions;
 
@@ -275,6 +278,143 @@ std::vector<std::string> Board::PossibleRookMovements(std::string currentPositio
 
 	for (const std::string& position : positions) {
 		if (this->pieces.find(position) == this->pieces.end()) continue;
+		auto pieceValue = this->pieces[position];
+
+		if (!this->isPieceInCollision(position, collisionPositions)) {
+			if (pieceValue == 0) {
+				this->pieces[position] = id;
+				possible_movements.push_back(position);
+				id += 100;
+			}
+			if (capture < 1 && adversary->findPieceById(pieceValue)) {
+				capture += 1;
+				this->pieces[position] = id;
+				std::string capturePosition = position;
+				possible_movements.push_back(position);
+				id += 100;
+			}
+		}
+	}
+
+	return possible_movements;
+}
+
+
+std::vector<std::string> Board::PossibleQueenMovements(std::string currentPosition, std::vector<std::string> positions, Player* currentPlayer, Player* adversary) {
+	std::vector<std::string> possible_movements;
+	int id = 100;
+	int capture = 0;
+	std::map<std::string, std::string> collision;
+	std::vector<std::string> collisionPositions;
+
+	for (const std::string& position : positions) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
+
+		auto pieceValue = this->pieces[position];
+
+		if (currentPlayer->findPieceById(pieceValue)) {
+			if (position[0] > currentPosition[0] && position[1] > currentPosition[1])
+				collision[position] = "+1+1";
+			if (position[0] < currentPosition[0] && position[1] < currentPosition[1])
+				collision[position] = "-1-1";
+			if (position[0] > currentPosition[0] && position[1] < currentPosition[1])
+				collision[position] = "+1-1";
+			if (position[0] < currentPosition[0] && position[1] > currentPosition[1])
+				collision[position] = "-1+1";
+		}
+	}
+
+	for (const auto& it : collision) {
+		if (it.second == "+1+1") {
+			char letter = it.first[0] + 1;
+			char number = it.first[1] + 1;
+			while (letter <= 'H' && number <= '8') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter += 1;
+				number += 1;
+			}
+		}if (it.second == "-1-1") {
+			char letter = it.first[0] - 1;
+			char number = it.first[1] - 1;
+			while (letter >= 'A' && number >= '1') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter -= 1;
+				number -= 1;
+			}
+		}
+		if (it.second == "+1-1") {
+			char letter = it.first[0] + 1;
+			char number = it.first[1] - 1;
+			while (letter <= 'H' && number >= '1') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter += 1;
+				number -= 1;
+			}
+		}
+		if (it.second == "-1+1") {
+			char letter = it.first[0] - 1;
+			char number = it.first[1] + 1;
+			while (letter >= 'A' && number <= '8') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter -= 1;
+				number += 1;
+			}
+		}
+	}
+
+	for (const std::string& position : positions) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
+
+		auto pieceValue = this->pieces[position];
+
+		if (currentPlayer->findPieceById(pieceValue)) {
+			if (position[0] > currentPosition[0] && position[1] == currentPosition[1])
+				collision[position] = "+1and0";
+			if (position[0] < currentPosition[0] && position[1] == currentPosition[1])
+				collision[position] = "-1and0";
+			if (position[0] == currentPosition[0] && position[1] < currentPosition[1])
+				collision[position] = "0and-1";
+			if (position[0] == currentPosition[0] && position[1] > currentPosition[1])
+				collision[position] = "0and+1";
+		}
+	}
+
+	for (const auto& it : collision) {
+		if (it.second == "+1and0") {
+			char letter = it.first[0] + 1;
+			char number = it.first[1];
+			while (letter <= 'H') {
+				collisionPositions.push_back(std::string(1, letter) + number);
+				letter += 1;
+			}
+		}if (it.second == "-1and0") {
+			char letter = it.first[0] - 1;
+			char number = it.first[1];
+			while (letter >= 'A') {
+				collisionPositions.push_back(std::string(1, letter) + number);
+				letter -= 1;
+			}
+		}
+		if (it.second == "0and-1") {
+			char letter = it.first[0];
+			char number = it.first[1] - 1;
+			while (number >= '1') {
+				collisionPositions.push_back(letter + std::string(1, number));
+				number -= 1;
+			}
+		}
+		if (it.second == "0and+1") {
+			char letter = it.first[0];
+			char number = it.first[1] + 1;
+			while (number <= '8') {
+				collisionPositions.push_back(letter + std::string(1, number));
+				number += 1;
+			}
+		}
+	}
+
+	for (const std::string& position : positions) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
 
 		auto pieceValue = this->pieces[position];
 
@@ -284,7 +424,8 @@ std::vector<std::string> Board::PossibleRookMovements(std::string currentPositio
 				possible_movements.push_back(position);
 				id += 100;
 			}
-			if (adversary->findPieceById(pieceValue)) {
+			if (capture <0 && adversary->findPieceById(pieceValue)) {
+				capture += 1;
 				this->pieces[position] = id;
 				possible_movements.push_back(position);
 				id += 100;

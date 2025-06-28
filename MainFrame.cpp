@@ -8,6 +8,7 @@
 #include "Bishop.h"
 #include "Rook.h"
 #include "King.h"
+#include "Queen.h"
 #include <string>
 
 
@@ -45,9 +46,11 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 			else if (dynamic_cast<Entities::King*>(piece)) {
 				std::vector<std::string>possible_movements = this->board->PossibleKingMovements(current_position, possible_positions,  this->player2);
 				this->possiblePositions = possible_movements;
-			}
-			else if (dynamic_cast<Entities::Rook*>(piece)) {
+			}else if (dynamic_cast<Entities::Rook*>(piece)) {
 				std::vector<std::string>possible_movements = this->board->PossibleRookMovements(current_position, possible_positions, this->player1, this->player2);
+				this->possiblePositions = possible_movements;
+			}else if (dynamic_cast<Entities::Queen*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleQueenMovements(current_position, possible_positions, this->player1, this->player2);
 				this->possiblePositions = possible_movements;
 			}
 			else {
@@ -79,6 +82,10 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 			}
 			else if (dynamic_cast<Entities::Rook*>(piece)) {
 				std::vector<std::string>possible_movements = this->board->PossibleRookMovements(current_position, possible_positions, this->player2,this->player1);
+				this->possiblePositions = possible_movements;
+			}
+			else if (dynamic_cast<Entities::Queen*>(piece)) {
+				std::vector<std::string>possible_movements = this->board->PossibleQueenMovements(current_position, possible_positions, this->player2, this->player1);
 				this->possiblePositions = possible_movements;
 			}
 			else {
