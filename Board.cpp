@@ -101,6 +101,97 @@ std::vector<std::string> Board::PossibleKnightMovements(std::string currentPosit
 	return possible_movements;
 }
 
+bool Board::isBishopInCollision(std::string position, std::vector<std::string> collisionPositions) {
+	for (const auto& it : collisionPositions) {
+		if (it == position)
+			return true;
+	}
+	return false;
+}
+
+std::vector<std::string> Board::PossibleBishopMovements(std::string currentPosition, std::vector<std::string> positions, Player* currentPlayer, Player* adversary) {
+	std::vector<std::string> possible_movements;
+	int id = 100;
+	std::map<std::string,std::string> collision;
+	std::vector<std::string> collisionPositions;
+	
+	for (const std::string& position : positions) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
+
+		auto pieceValue = this->pieces[position];
+
+		if (currentPlayer->findPieceById(pieceValue)) {
+			if (position[0] > currentPosition[0] && position[1] > currentPosition[1])
+				collision[position] = "+1+1";
+			if (position[0] < currentPosition[0] && position[1] < currentPosition[1])
+				collision[position] = "-1-1";
+			if (position[0] > currentPosition[0] && position[1] < currentPosition[1])
+				collision[position] = "+1-1";
+			if (position[0] < currentPosition[0] && position[1] > currentPosition[1])
+				collision[position] = "-1+1";
+		}
+	}
+
+	for (const auto& it : collision) {
+		if (it.second == "+1+1") {
+			char letter = it.first[0] + 1;
+			char number = it.first[1] + 1 ;
+			while (letter <= 'H' && number <= '8') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter += 1;
+				number += 1;
+			}
+		}if (it.second == "-1-1") {
+			char letter = it.first[0] -1;
+			char number = it.first[1] -1;
+			while (letter >= 'A' && number >= '1') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter -= 1;
+				number -= 1;
+			}
+		}
+		if (it.second == "+1-1") {
+			char letter = it.first[0] + 1;
+			char number = it.first[1] - 1;
+			while (letter <= 'H' && number >= '1') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter += 1;
+				number -= 1;
+			}
+		}
+		if (it.second == "-1+1") {
+			char letter = it.first[0] - 1;
+			char number = it.first[1] + 1;
+			while (letter >= 'A' && number <= '8') {
+				collisionPositions.push_back(std::string(1, letter) + std::string(1, number));
+				letter -= 1;
+				number += 1;
+			}
+		}
+	}
+
+	for (const std::string& position : positions) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
+
+		auto pieceValue = this->pieces[position];
+
+		if (!this->isBishopInCollision(position,collisionPositions)) {
+			if (pieceValue == 0) {
+				this->pieces[position] = id;
+				possible_movements.push_back(position);
+				id += 100;
+			}
+			if (adversary->findPieceById(pieceValue)) {
+				this->pieces[position] = id;
+				possible_movements.push_back(position);
+				id += 100;
+			}
+		}
+	}
+
+	return possible_movements;
+}
+
 
 
 void Board::updateBoard(Player* player1, Player* player2,std::vector<std::string> previousPossiblePositions ,std::string previousPosition,std::string movingPosition) {
@@ -125,3 +216,5 @@ void Board::updateBoard(Player* player1, Player* player2,std::vector<std::string
 		}
 	}
 }
+
+
