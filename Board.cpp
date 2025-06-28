@@ -77,6 +77,29 @@ std::vector<std::string> Board::PossiblePawnMovements(std::string currentPositio
 	return possible_movements;
 }
 
+std::vector<std::string> Board::PossibleKingMovements(std::string currentPosition, std::vector<std::string> positions, Player* adversary) {
+	std::vector<std::string> possible_movements;
+	int id = 100;
+
+	for (const std::string& position : positions) {
+		if (this->pieces.find(position) == this->pieces.end()) continue;
+
+		auto pieceValue = this->pieces[position];
+
+		if (pieceValue == 0) {
+			this->pieces[position] = id;
+			possible_movements.push_back(position);
+			id += 100;
+		}
+		else if (adversary->findPieceById(pieceValue)) {
+			this->pieces[position] = id;
+			possible_movements.push_back(position);
+			id += 100;
+		}
+	}
+	return possible_movements;
+}
+
 std::vector<std::string> Board::PossibleKnightMovements(std::string currentPosition, std::vector<std::string> positions, Player* adversary) {
 	std::vector<std::string> possible_movements;
 	int id = 100;
