@@ -10,9 +10,9 @@ namespace Entities{
 		int id;
 		std::string position;
 		std::string name;
-	
+		std::string type;
 	public:
-		Piece(std::string position);
+		Piece(std::string position,std::string type);
 		std::string getName();
 		int getId();
 		Piece* selectPiece(int id);

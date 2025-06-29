@@ -20,7 +20,7 @@ MainFrame::MainFrame(const wxString& title):wxFrame(nullptr,wxID_ANY,title){
 	this->player2 = new Entities::Player(2);
 	this->board = new Entities::Board(player1,player2);
 	CreateStatusBar();
-	this->UpdateUI();
+	this->createBoard();
 }
 
 
@@ -57,7 +57,7 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 				wxLogStatus("Piece type not found");
 				return;
 			}
-			this->UpdateUI();
+			this->createBoard();
 			wxLogStatus("possible position 0:" + possible_positions.at(0) + "possible position 1:" + possible_positions.at(1) + "possible position 2:" + possible_positions.at(2) + "possible position 3:" + possible_positions.at(3));
 		}
 		else {
@@ -92,7 +92,7 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 				wxLogStatus("Piece type not found");
 				return;
 			}
-			this->UpdateUI();
+			this->createBoard();
 			wxLogStatus("possible position 0:" + possible_positions.at(0) + "possible position 1:" + possible_positions.at(1) + "possible position 2:" + possible_positions.at(2) + "possible position 3:" + possible_positions.at(3));
 		}
 	}
@@ -100,7 +100,7 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 
 void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 	if (this->selectedPiece) {
-		this->movingPosition = this->boardPositions[int(evt.GetId())];
+		this->movingPosition = this->piecesPositions[int(evt.GetId())];
 		int idPiece = int(evt.GetId());
 		if (isLegalMove()){
 			if (this->isPlayer1Turn) {
@@ -114,7 +114,10 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				this->selectedPiece = NULL;
 				this->boardPositions.clear();
 				this->isPlayer1Turn = false;
-				this->UpdateUI();
+				this->panel->DestroyChildren();
+				this->possiblePositions.clear();
+				this->piecesPositions.clear();
+				this->createBoard();
 			}
 			else {
 				Entities::Piece* piece = this->player2->findPieceById(this->selectedPiece);
@@ -127,95 +130,20 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				this->selectedPiece = NULL;
 				this->isPlayer1Turn = true;
 				this->boardPositions.clear();
-				this->UpdateUI();
+				this->panel->DestroyChildren();
+				this->possiblePositions.clear();
+				this->piecesPositions.clear();
+				this->createBoard();
 			}
 		}
 		else {
 			wxLogStatus("illegal move");
 		}
 	}
-
 }
 
 
-void MainFrame::UpdateUI() {
 
-	this->panel->DestroyChildren();  
-	this->panel->Update();
-	this->panel->Center();
-	int i = 40;
-
-	int x = 100;
-	int y = 40;
-
-	std::string itemColor = "white";
-
-	for (const auto& pair : this->board->getPieces()) {
-		wxPanel* itemPanel = new wxPanel(panel, wxID_ANY, wxPoint(x, y), wxSize(50, 50));
-		wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-			
-		int id = (pair.second == 0) ? i : pair.second;
-		std::string label = pair.first + ((pair.second == 0) ? "= 0\t" : "=" + std::to_string(pair.second) + "\t");
-		
-		std::string imgPath;
-
-		if (pair.second != 0) {
-			std::string pieceType = this->getPieceType(pair.second);
-			if (pieceType == "pawn") {
-				imgPath = "pawn.png";
-			}
-		}
-
-		wxBitmap bitmap;
-		if (!imgPath.empty() && wxFileExists(imgPath)) {
-			wxImage image(imgPath, wxBITMAP_TYPE_PNG);
-			if (image.IsOk()) {
-				image.Rescale(40, 40);
-				bitmap = wxBitmap(image);
-			}
-		}
-
-		wxStaticBitmap* staticImage = new wxStaticBitmap(itemPanel, id, bitmap);
-
-		if (itemColor == "green") {
-			itemPanel->SetBackgroundColour(wxColour(107, 142, 35));
-			if (pair.first[1] == '8')
-				itemColor = "green";
-			else
-				itemColor = "white";
-		}
-		else  {
-			itemPanel->SetBackgroundColour(wxColour(255, 255, 255));
-			if (pair.first[1] == '8')
-				itemColor = "white";
-			else
-				itemColor = "green";
-		}
-		
-
-		if (this->selectedPiece) {
-			staticImage->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceMoved, this);
-		}
-		else {
-			staticImage->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceSelected, this);
-		}
-
-		sizer->Add(staticImage, 0, wxALL, 5);
-
-		itemPanel->SetSizer(sizer);
-		this->boardPositions[id] = pair.first;
-
-		if (pair.second == 0) i++;
-
-		x += 50;
-
-		if (pair.first[1] == '8') {
-			x = 100;
-			y += 50;
-		}
-	}
-
-}
 	
 boolean MainFrame::isLegalMove() {
 	for (const auto& i : this->possiblePositions) {
@@ -265,4 +193,113 @@ std::string MainFrame::getPieceType(int idPiece) {
 		}
 	}
 	return "undefined";
+}
+
+
+void MainFrame::createBoard() {
+	this->panel->DestroyChildren();
+
+	int index = 40;
+	int x = 100;
+	int y = 40;
+	int id;
+
+	std::string itemColor = "white";
+
+	char letter = 'A';
+	char number = '1';
+
+	for (int i = 1; i <= 64; i++) {
+		std::string position = std::string(1, letter) + std::string(1, number);
+
+		// Assign ID: piece ID if occupied, else generate a new one
+		if (this->board->getPiece(position) == 0) {
+			id = index++;
+		}
+		else {
+			id = this->board->getPiece(position);
+		}
+
+		wxPanel* itemPanel = new wxPanel(panel, id, wxPoint(x, y), wxSize(60, 60));
+
+		// Alternate square colors
+		if (std::find(this->possiblePositions.begin(), this->possiblePositions.end(), position) != this->possiblePositions.end()) {
+			itemPanel->SetBackgroundColour(wxColour(135, 206, 250));
+			if (itemColor == "green")
+				itemColor = "white";
+			else
+				itemColor = "green";
+		}
+		else if (itemColor == "green") {
+			itemPanel->SetBackgroundColour(wxColour(107, 142, 35));
+			itemColor = (i % 8 == 0) ? "green" : "white";
+		}
+		else {
+			itemPanel->SetBackgroundColour(wxColour(255, 255, 180));
+			itemColor = (i % 8 == 0) ? "white" : "green";
+		}
+
+
+		// Save in maps
+		this->boardPositions[position] = itemPanel;
+		this->piecesPositions[id] = position;
+
+		// Add piece image if there's one
+		int pieceId = this->board->getPiece(position);
+		if (pieceId != 0) {
+			std::string pieceType = getPieceType(pieceId);
+			std::string imgPath;
+
+			if (pieceType == "pawn") {
+				imgPath = "pawn.png";
+			}
+			else if (pieceType == "rook") {
+				imgPath = "b_Rook.png";
+			}
+			else if (pieceType == "knight") {
+				imgPath = "b_Knight.png";
+			}
+			else if (pieceType == "bishop") {
+				imgPath = "b_Bishop.png";
+			}
+			else if (pieceType == "king") {
+				imgPath = "b_King.png";
+			}
+			else if (pieceType == "queen") {
+				imgPath = "b_Queen.png";
+			}
+
+			if (!imgPath.empty() && wxFileExists(imgPath)) {
+				wxImage image(imgPath, wxBITMAP_TYPE_PNG);
+				if (image.IsOk()) {
+					image.Rescale(40, 40);
+					wxBitmap bitmap(image);
+					wxStaticBitmap* staticImage = new wxStaticBitmap(itemPanel, id, bitmap);
+
+		
+
+					wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+					sizer->Add(staticImage, 0, wxALL, 5);
+					itemPanel->SetSizer(sizer);
+				}
+			}
+		}
+	
+			if (this->selectedPiece) {
+				itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceMoved, this);
+			}
+			else {
+				itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceSelected, this);
+			}
+
+		number += 1;
+		x += 60;
+
+		if (i % 8 == 0) {
+			x = 100;
+			y += 60;
+			letter += 1;
+			number = '1';
+		}
+	}
 }

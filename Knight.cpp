@@ -2,7 +2,7 @@
 
 using namespace Entities;
 
-Knight::Knight(std::string position) :Piece(position) {
+Knight::Knight(std::string position,std::string pieceType) :Piece(position,pieceType) {
 
 }
 

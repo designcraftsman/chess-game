@@ -2,7 +2,7 @@
 
 using namespace Entities;
 
-King::King(std::string position) :Piece(position) {
+King::King(std::string position, std::string pieceType) :Piece(position,pieceType) {
 
 }
 

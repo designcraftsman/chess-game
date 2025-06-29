@@ -18,10 +18,14 @@ Player::Player() {
 
 Player::Player(int id) {
 	if (id == 1) {
+
 		this->id = 1;
+
+		std::string pieceType = "white";
+
 		for (int i = 1; i < 9; i++) {
 			std::string key = "B" + std::to_string(i);
-			Piece* pawn = new Pawn(key);
+			Piece* pawn = new Pawn(key,pieceType);
 			pieces.push_back(pawn);
 		}
 		int j = 8;
@@ -30,26 +34,26 @@ Player::Player(int id) {
 			std::string key2 = "A" + std::to_string(j);
 
 			if (i == 1) {
-				Piece* rook1 = new Rook(key1);
-				Piece* rook2 = new Rook(key2);
+				Piece* rook1 = new Rook(key1, pieceType);
+				Piece* rook2 = new Rook(key2, pieceType);
 				pieces.push_back(rook1);
 				pieces.push_back(rook2);
 			}
 			else if (i == 2) {
-				Piece* knight1 = new Knight(key1);
-				Piece* knight2 = new Knight(key2);
+				Piece* knight1 = new Knight(key1, pieceType);
+				Piece* knight2 = new Knight(key2, pieceType);
 				pieces.push_back(knight1);
 				pieces.push_back(knight2);
 			}
 			else if (i == 3) {
-				Piece* bishop1 = new Bishop(key1);
-				Piece* bishop2 = new Bishop(key2);
+				Piece* bishop1 = new Bishop(key1, pieceType);
+				Piece* bishop2 = new Bishop(key2, pieceType);
 				pieces.push_back(bishop1);
 				pieces.push_back(bishop2);
 			}
 			else {
-				Piece* king = new King(key1);
-				Piece* queen = new Queen(key2);
+				Piece* king = new King(key1, pieceType);
+				Piece* queen = new Queen(key2, pieceType);
 				pieces.push_back(king);
 				pieces.push_back(queen);
 			}
@@ -58,9 +62,10 @@ Player::Player(int id) {
 	}
 	if(id == 2){
 		this->id = 2;
+		std::string pieceType = "black";
 		for (int i = 1; i < 9; i++) {
 			std::string key = "G" + std::to_string(i);
-			Piece* pawn = new Pawn(key);
+			Piece* pawn = new Pawn(key, pieceType);
 			pieces.push_back(pawn);
 		}
 		int j = 8;
@@ -69,26 +74,26 @@ Player::Player(int id) {
 			std::string key2 = "H" + std::to_string(j);
 
 			if (i == 1) {
-				Piece* rook1 = new Rook(key1);
-				Piece* rook2 = new Rook(key2);
+				Piece* rook1 = new Rook(key1, pieceType);
+				Piece* rook2 = new Rook(key2, pieceType);
 				pieces.push_back(rook1);
 				pieces.push_back(rook2);
 			}
 			else if (i == 2) {
-				Piece* knight1 = new Knight(key1);
-				Piece* knight2 = new Knight(key2);
+				Piece* knight1 = new Knight(key1, pieceType);
+				Piece* knight2 = new Knight(key2, pieceType);
 				pieces.push_back(knight1);
 				pieces.push_back(knight2);
 			}
 			else if (i == 3) {
-				Piece* bishop1 = new Bishop(key1);
-				Piece* bishop2 = new Bishop(key2);
+				Piece* bishop1 = new Bishop(key1, pieceType);
+				Piece* bishop2 = new Bishop(key2, pieceType);
 				pieces.push_back(bishop1);
 				pieces.push_back(bishop2);
 			}
 			else {
-				Piece* king = new King(key1);
-				Piece* queen = new Queen(key2);
+				Piece* king = new King(key1, pieceType);
+				Piece* queen = new Queen(key2, pieceType);
 				pieces.push_back(king);
 				pieces.push_back(queen);
 			}

@@ -5,7 +5,7 @@ namespace Entities {
 	class Bishop: public Piece
 	{
 	public:
-		Bishop(std::string position);
+		Bishop(std::string position, std::string pieceType);
 		std::vector<std::string> getPossibleMovements(int idPlayer) override;
 	};
 }

@@ -4,7 +4,7 @@
 
 using namespace Entities;
 
-Pawn::Pawn(std::string position) :Piece(position) {
+Pawn::Pawn(std::string position,std::string pieceType) :Piece(position,pieceType) {
 
 }
 

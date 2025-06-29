@@ -13,6 +13,7 @@ class Board
 		Board();
 		Board(Player* player1,Player* player2);
 		std::map<std::string, int> getPieces();
+		int getPiece(std::string);
 		std::string printBoard();
 		bool isPieceInCollision(std::string position, std::vector<std::string> collisionPositions);
 		std::vector<std::string> PossiblePawnMovements(std::string currentPosition,std::vector<std::string> positions,Player* adversary);

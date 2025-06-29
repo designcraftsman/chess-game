@@ -2,7 +2,7 @@
 
 using namespace Entities;
 
-Bishop::Bishop(std::string position):Piece(position) {
+Bishop::Bishop(std::string position, std::string pieceType):Piece(position,pieceType) {
 	
 }
 

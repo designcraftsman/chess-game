@@ -461,3 +461,8 @@ void Board::updateBoard(Player* player1, Player* player2,std::vector<std::string
 }
 
 
+int Board::getPiece(std::string position) {
+	return this->pieces[position];
+}
+
+

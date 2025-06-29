@@ -2,7 +2,7 @@
 
 using namespace Entities;
 
-Rook::Rook(std::string position):Piece(position) {
+Rook::Rook(std::string position, std::string pieceType):Piece(position,pieceType) {
 
 }
 

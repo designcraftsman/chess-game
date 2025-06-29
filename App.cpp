@@ -11,6 +11,7 @@ bool App::OnInit() {
 	wxImage::AddHandler(new wxBMPHandler());
 	MainFrame* mainFrame = new MainFrame("Chess Game");
 	mainFrame->SetClientSize(900, 600);
+	mainFrame->SetBackgroundColour(wxColour(200, 200, 200));
 	mainFrame->Center();
 	mainFrame->Show();
 	return true;

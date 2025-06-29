@@ -11,10 +11,12 @@ public:
 	boolean isLegalMove();
 	boolean isAttack(int idPiece);
 	std::string getPieceType(int idPiece);
+	void createBoard();
 private:
 	int selectedPiece;
 	boolean isPlayer1Turn;
-	std::map<int, std::string> boardPositions;
+	std::map<std::string,wxPanel*> boardPositions;
+	std::map<int , std::string> piecesPositions;
 	void OnPieceSelected(wxMouseEvent& evt);
 	void OnPieceMoved(wxMouseEvent& evt);
 	std::string movingPosition;
