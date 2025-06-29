@@ -10,6 +10,7 @@ public:
 	void UpdateUI();
 	boolean isLegalMove();
 	boolean isAttack(int idPiece);
+	std::string getPieceType(int idPiece);
 private:
 	int selectedPiece;
 	boolean isPlayer1Turn;
