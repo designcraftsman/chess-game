@@ -31,7 +31,12 @@ std::vector<std::string> Pawn::getPossibleMovements(int idPlayer) {
     char attack_right = number + 1;
 
 
-    positions.push_back(std::string(1, forward_2) + std::string(1, number));
+    if(idPlayer == 1 && current_position[0] == 'B')
+        positions.push_back(std::string(1, forward_2) + std::string(1, number));
+    
+    if (idPlayer == 2 && current_position[0] == 'G')
+        positions.push_back(std::string(1, forward_2) + std::string(1, number));
+
     positions.push_back(std::string(1, forward_1) + std::string(1, number));
     
     positions.push_back(std::string(1, forward_1) + std::string(1, attack_left));

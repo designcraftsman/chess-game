@@ -65,7 +65,9 @@ std::vector<std::string> Board::PossiblePawnMovements(std::string currentPositio
 			}
 		}
 		else if (adversary->findPieceById(pieceValue)) {
-			possible_movements.push_back(position);
+			if (currentPosition[1] != position[1]) {
+				possible_movements.push_back(position);
+			}
 		}
 	}
 
@@ -97,7 +99,6 @@ std::vector<std::string> Board::PossibleKingMovements(std::string currentPositio
 
 std::vector<std::string> Board::PossibleKnightMovements(std::string currentPosition, std::vector<std::string> positions, Player* adversary) {
 	std::vector<std::string> possible_movements;
-	int id = 100;
 
 	for (const std::string& position : positions) {
 		if (this->pieces.find(position) == this->pieces.end()) continue;
@@ -105,14 +106,10 @@ std::vector<std::string> Board::PossibleKnightMovements(std::string currentPosit
 		auto pieceValue = this->pieces[position];
 
 		if (pieceValue == 0) {
-			this->pieces[position] = id;
 			possible_movements.push_back(position);
-			id += 100;
 		}
 		if (adversary->findPieceById(pieceValue)) {
-			this->pieces[position] = id;
 			possible_movements.push_back(position);
-			id += 100;
 		}
 	}
 
@@ -129,7 +126,6 @@ bool Board::isPieceInCollision(std::string position, std::vector<std::string> co
 
 std::vector<std::string> Board::PossibleBishopMovements(std::string currentPosition, std::vector<std::string> positions, Player* currentPlayer, Player* adversary) {
 	std::vector<std::string> possible_movements;
-	int id = 100;
 	int capture = 0;
 	std::map<std::string,std::string> collision;
 	std::vector<std::string> collisionPositions;
@@ -196,15 +192,11 @@ std::vector<std::string> Board::PossibleBishopMovements(std::string currentPosit
 
 		if (!this->isPieceInCollision(position,collisionPositions)) {
 			if (pieceValue == 0) {
-				this->pieces[position] = id;
 				possible_movements.push_back(position);
-				id += 100;
 			}
-			if (capture <0 && adversary->findPieceById(pieceValue)) {
+			if (capture < 1 && adversary->findPieceById(pieceValue)) {
 				capture += 1;
-				this->pieces[position] = id;
 				possible_movements.push_back(position);
-				id += 100;
 			}
 		}
 	}
@@ -215,7 +207,6 @@ std::vector<std::string> Board::PossibleBishopMovements(std::string currentPosit
 
 std::vector<std::string> Board::PossibleRookMovements(std::string currentPosition, std::vector<std::string> positions, Player* currentPlayer, Player* adversary) {
 	std::vector<std::string> possible_movements;
-	int id = 100;
 	int capture = 0;
 	std::map<std::string, std::string> collision;
 	std::vector<std::string> collisionPositions;
@@ -277,16 +268,12 @@ std::vector<std::string> Board::PossibleRookMovements(std::string currentPositio
 
 		if (!this->isPieceInCollision(position, collisionPositions)) {
 			if (pieceValue == 0) {
-				this->pieces[position] = id;
 				possible_movements.push_back(position);
-				id += 100;
 			}
 			if (capture < 1 && adversary->findPieceById(pieceValue)) {
 				capture += 1;
-				this->pieces[position] = id;
 				std::string capturePosition = position;
 				possible_movements.push_back(position);
-				id += 100;
 			}
 		}
 	}
@@ -415,15 +402,11 @@ std::vector<std::string> Board::PossibleQueenMovements(std::string currentPositi
 
 		if (!this->isPieceInCollision(position, collisionPositions)) {
 			if (pieceValue == 0) {
-				this->pieces[position] = id;
 				possible_movements.push_back(position);
-				id += 100;
 			}
-			if (capture <0 && adversary->findPieceById(pieceValue)) {
+			if (capture < 1 && adversary->findPieceById(pieceValue)) {
 				capture += 1;
-				this->pieces[position] = id;
 				possible_movements.push_back(position);
-				id += 100;
 			}
 		}
 	}
