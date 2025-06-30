@@ -11,7 +11,7 @@ wxwidgets-temp/
 *.obj            # MSVC object files
 *.exe            # Executables
 *.dll            # Dynamic-link libraries
-*.lib            # Static libraries (MSVC)
+*.lib            # Static libraries
 *.exp            # Export files
 *.log            # Build logs
 *.pch            # Precompiled headers
@@ -25,14 +25,27 @@ wxwidgets-temp/
 *.ipdb           # Intermediate PDBs
 *.ilk            # Incremental linker files
 
-# Visual Studio-specific databases
+# Visual Studio-specific databases and files
 *.sdf            # SQL Server CE database file
-*.opensdf        # Newer VS code analysis DB
-*.db             # Generic DB files (used by intellisense, etc.)
+*.opensdf        # VS2019+ code analysis DB
+*.db             # Other DB files
+*.suo            # Solution user options
+*.user           # Project user options
+*.vcxproj.user   # Project-specific user settings
+*.VC.db          # IntelliSense database
 
 # Legacy Visual Studio files
-*.ncb            # Old Intellisense DB
-*.sbr            # Source browser data
+*.ncb            # IntelliSense database
+*.sbr            # Source browser files
+
+#######################################
+# Build folders and temp directories  #
+#######################################
+
 bin/
 build/
+Debug/
+Release/
+
+# Visual Studio metadata
 .vs/

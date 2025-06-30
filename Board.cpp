@@ -53,7 +53,6 @@ std::map<std::string, int> Board::getPieces() {
 
 std::vector<std::string> Board::PossiblePawnMovements(std::string currentPosition, std::vector<std::string> positions, Player* adversary) {
 	std::vector<std::string> possible_movements;
-	int id = 100;
 
 	for (const std::string& position : positions) {
 		if (this->pieces.find(position) == this->pieces.end()) continue;
@@ -62,15 +61,11 @@ std::vector<std::string> Board::PossiblePawnMovements(std::string currentPositio
 
 		if (pieceValue == 0) {
 			if (currentPosition[1] == position[1]) {
-				this->pieces[position] = id;
 				possible_movements.push_back(position);
-				id += 100;
 			}
 		}
 		else if (adversary->findPieceById(pieceValue)) {
-			this->pieces[position] = id;
 			possible_movements.push_back(position);
-			id += 100;
 		}
 	}
 
@@ -437,28 +432,33 @@ std::vector<std::string> Board::PossibleQueenMovements(std::string currentPositi
 }
 
 
-void Board::updateBoard(Player* player1, Player* player2,std::vector<std::string> previousPossiblePositions ,std::string previousPosition,std::string movingPosition) {
-	std::list<Piece*>::iterator it;
-	
-	for (auto const& i : previousPossiblePositions) {
-		if (!(i == movingPosition))
-			this->pieces[i] = 0;
+void Board::updateBoard(Player* player1, Player* player2,
+	std::vector<std::string> previousPossiblePositions,
+	std::string previousPosition, std::string movingPosition) {
+
+	// 1. Clear all previously marked possible positions EXCEPT the one actually moved to
+	for (const auto& pos : previousPossiblePositions) {
+		if (pos != movingPosition)
+			this->pieces[pos] = 0;
 	}
 
-	for (auto const& i : player1->getPieces()) {
-		this->pieces[i->getPosition()] = i->getId();
+	// 2. Remove previous position of the moved piece (just in case)
+	this->pieces[previousPosition] = 0;
+
+	// 3. Reset all board pieces to zero
+	for (auto& entry : this->pieces) {
+		entry.second = 0;
 	}
 
-	for (auto const& i : player2->getPieces()) {
-		this->pieces[i->getPosition()] = i->getId();
+	// 4. Add all current positions of both players
+	for (const auto& p : player1->getPieces()) {
+		this->pieces[p->getPosition()] = p->getId();
 	}
-
-	for (auto const& i : this->pieces) {
-		if (i.first == previousPosition) {
-			this->pieces[i.first] = 0;
-		}
+	for (const auto& p : player2->getPieces()) {
+		this->pieces[p->getPosition()] = p->getId();
 	}
 }
+
 
 
 int Board::getPiece(std::string position) {

@@ -10,6 +10,7 @@
 #include <vector>
 #include <list>
 
+
 using namespace Entities;
 
 Player::Player() {
@@ -111,7 +112,7 @@ Piece* Player::findPieceById(int id) {
 		if (it->getId() == id)
 			return it;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -126,9 +127,11 @@ void Player::removePiece(int idPiece) {
 	for (auto it = this->pieces.begin(); it != this->pieces.end(); ++it) {
 		if ((*it)->getId() == idPiece) {
 			this->pieces.erase(it);
-			break; 
+			
+			return;
 		}
 	}
 }
+
 
 

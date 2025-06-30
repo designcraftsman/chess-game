@@ -8,13 +8,13 @@ class MainFrame :public wxFrame
 public:
 	MainFrame(const wxString& title);
 	void UpdateUI();
-	boolean isLegalMove();
-	boolean isAttack(int idPiece);
+	bool isLegalMove();
+	bool isAttack(const std::string& position);
 	std::string getPieceType(int idPiece);
 	void createBoard();
 private:
 	int selectedPiece;
-	boolean isPlayer1Turn;
+	bool isPlayer1Turn;
 	std::map<std::string,wxPanel*> boardPositions;
 	std::map<int , std::string> piecesPositions;
 	void OnPieceSelected(wxMouseEvent& evt);
