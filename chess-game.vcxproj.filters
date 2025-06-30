@@ -147,6 +147,9 @@
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Pawn.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\..\Downloads\menu-background.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

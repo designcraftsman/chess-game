@@ -180,6 +180,7 @@
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Pawn.png" />
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Queen.png" />
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Rook.png" />
+    <Image Include="..\..\..\..\Downloads\menu-background.jpg" />
     <Image Include="chess-game.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
