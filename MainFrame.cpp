@@ -108,7 +108,7 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				std::string previousPosition = piece->getPosition();
 				piece->movePiece(this->movingPosition);
 				if (this->isAttack(idPiece)) {
-					this->player1->removePiece(idPiece);
+					this->player2->removePiece(idPiece);
 				}
 				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
 				this->selectedPiece = NULL;
@@ -124,7 +124,7 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				std::string previousPosition = piece->getPosition();
 				piece->movePiece(this->movingPosition);
 				if (this->isAttack(idPiece)) {
-					this->player2->removePiece(idPiece);
+					this->player1->removePiece(idPiece);
 				}
 				this->board->updateBoard(this->player1, this->player2, this->possiblePositions, previousPosition, this->movingPosition);
 				this->selectedPiece = NULL;
@@ -163,35 +163,58 @@ boolean MainFrame::isAttack(int idPiece) {
 
 std::string MainFrame::getPieceType(int idPiece) {
 	Entities::Piece* piece = NULL;
-	if (this->player1->findPieceById(idPiece))
+	if (this->player1->findPieceById(idPiece)) {
 		piece = this->player1->findPieceById(idPiece);
-	if (this->player2->findPieceById(idPiece))
-		piece = this->player2->findPieceById(idPiece);
 
-	if (!piece == NULL) {
 		if (dynamic_cast<Entities::Pawn*>(piece)) {
-			return "pawn";
+			return "b_pawn";
 		}
 		else if (dynamic_cast<Entities::Knight*>(piece)) {
-			return "knight";
+			return "b_knight";
 		}
 		else if (dynamic_cast<Entities::Bishop*>(piece)) {
-			return "bishop";
+			return "b_bishop";
 		}
 		else if (dynamic_cast<Entities::King*>(piece)) {
-			return "king";
+			return "b_king";
 		}
 		else if (dynamic_cast<Entities::Rook*>(piece)) {
-			return "rook";
+			return "b_rook";
 		}
 		else if (dynamic_cast<Entities::Queen*>(piece)) {
-			return "queen";
+			return "b_queen";
 		}
 		else {
 			wxLogStatus("Piece type not found");
 			return "Undefined";
 		}
 	}
+	if (this->player2->findPieceById(idPiece)) {
+		piece = this->player2->findPieceById(idPiece);
+		if (dynamic_cast<Entities::Pawn*>(piece)) {
+			return "w_pawn";
+		}
+		else if (dynamic_cast<Entities::Knight*>(piece)) {
+			return "w_knight";
+		}
+		else if (dynamic_cast<Entities::Bishop*>(piece)) {
+			return "w_bishop";
+		}
+		else if (dynamic_cast<Entities::King*>(piece)) {
+			return "w_king";
+		}
+		else if (dynamic_cast<Entities::Rook*>(piece)) {
+			return "w_rook";
+		}
+		else if (dynamic_cast<Entities::Queen*>(piece)) {
+			return "w_queen";
+		}
+		else {
+			wxLogStatus("Piece type not found");
+			return "Undefined";
+		}
+	}
+
 	return "undefined";
 }
 
@@ -226,9 +249,9 @@ void MainFrame::createBoard() {
 		if (std::find(this->possiblePositions.begin(), this->possiblePositions.end(), position) != this->possiblePositions.end()) {
 			itemPanel->SetBackgroundColour(wxColour(135, 206, 250));
 			if (itemColor == "green")
-				itemColor = "white";
+				itemColor = (i % 8 == 0) ? "green" : "white";
 			else
-				itemColor = "green";
+				itemColor = (i % 8 == 0) ? "white" : "green";
 		}
 		else if (itemColor == "green") {
 			itemPanel->SetBackgroundColour(wxColour(107, 142, 35));
@@ -246,27 +269,47 @@ void MainFrame::createBoard() {
 
 		// Add piece image if there's one
 		int pieceId = this->board->getPiece(position);
+
+
 		if (pieceId != 0) {
 			std::string pieceType = getPieceType(pieceId);
 			std::string imgPath;
 
-			if (pieceType == "pawn") {
+			if (pieceType == "b_pawn") {
 				imgPath = "pawn.png";
 			}
-			else if (pieceType == "rook") {
+			else if (pieceType == "b_rook") {
 				imgPath = "b_Rook.png";
 			}
-			else if (pieceType == "knight") {
+			else if (pieceType == "b_knight") {
 				imgPath = "b_Knight.png";
 			}
-			else if (pieceType == "bishop") {
+			else if (pieceType == "b_bishop") {
 				imgPath = "b_Bishop.png";
 			}
-			else if (pieceType == "king") {
+			else if (pieceType == "b_king") {
 				imgPath = "b_King.png";
 			}
-			else if (pieceType == "queen") {
+			else if (pieceType == "b_queen") {
 				imgPath = "b_Queen.png";
+			}
+			else if (pieceType == "w_rook") {
+				imgPath = "w_Rook.png";
+			}
+			else if (pieceType == "w_pawn") {
+				imgPath = "w_Pawn.png";
+			}
+			else if (pieceType == "w_knight") {
+				imgPath = "w_Knight.png";
+			}
+			else if (pieceType == "w_bishop") {
+				imgPath = "w_Bishop.png";
+			}
+			else if (pieceType == "w_king") {
+				imgPath = "w_King.png";
+			}
+			else if (pieceType == "w_queen") {
+				imgPath = "w_Queen.png";
 			}
 
 			if (!imgPath.empty() && wxFileExists(imgPath)) {
@@ -285,12 +328,11 @@ void MainFrame::createBoard() {
 			}
 		}
 	
-			if (this->selectedPiece) {
-				itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceMoved, this);
-			}
-			else {
-				itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceSelected, this);
-			}
+		if (this->selectedPiece) {
+			itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceMoved, this);
+		}else {
+			itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceSelected, this);
+		}
 
 		number += 1;
 		x += 60;

@@ -172,15 +172,10 @@
     <ResourceCompile Include="chess-game.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\..\..\..\Downloads\ChessAssets\pawn.png">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </CopyFileToFolders>
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Bishop.png" />
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_King.png" />
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Knight.png" />
+    <Image Include="..\..\..\..\Downloads\ChessAssets\b_Pawn.png" />
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Queen.png" />
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Rook.png" />
     <Image Include="chess-game.ico" />
