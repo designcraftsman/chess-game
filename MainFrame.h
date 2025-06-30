@@ -3,7 +3,7 @@
 #include "Board.h"
 #include "Player.h"
 
-class MainFrame :public wxFrame
+class MainFrame :public wxFrame 
 {
 public:
 	MainFrame(const wxString& title);
