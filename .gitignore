@@ -1,51 +1,45 @@
-#######################################
-# wxWidgets build and temporary files #
-#######################################
+# Build results
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.log
+*.tlog
+*.idb
+*.pch
 
-# Custom wxWidgets build directories (if any)
-wxwidgets-build/
-wxwidgets-temp/
-
-# Compiler-generated files
-*.o              # GCC/Clang object files
-*.obj            # MSVC object files
-*.exe            # Executables
-*.dll            # Dynamic-link libraries
-*.lib            # Static libraries
-*.exp            # Export files
-*.log            # Build logs
-*.pch            # Precompiled headers
-*.manifest       # Manifest files
-*.tlog           # MSBuild logs
-*.tmp            # Temp files
-*.cache          # Generic cache
-*.idb            # Incremental linker database
-*.pdb            # Debug symbol files
-*.iobj           # Intermediate object files
-*.ipdb           # Intermediate PDBs
-*.ilk            # Incremental linker files
-
-# Visual Studio-specific databases and files
-*.sdf            # SQL Server CE database file
-*.opensdf        # VS2019+ code analysis DB
-*.db             # Other DB files
-*.suo            # Solution user options
-*.user           # Project user options
-*.vcxproj.user   # Project-specific user settings
-*.VC.db          # IntelliSense database
-
-# Legacy Visual Studio files
-*.ncb            # IntelliSense database
-*.sbr            # Source browser files
-
-#######################################
-# Build folders and temp directories  #
-#######################################
-
-bin/
-build/
+# Visual Studio directories
 Debug/
 Release/
-
-# Visual Studio metadata
+x64/
+ipch/
 .vs/
+.vscode/
+
+# Visual Studio temporary files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# CMake and build system files (optional, if used)
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Backup files
+*~
+*.bak
+
+# Hidden system files
+.DS_Store
+Thumbs.db
+
+# Other binaries
+*.dll
+*.lib
+*.exp
+
+# Git LFS config (if used)
+.gitattributes
