@@ -1,1 +1,38 @@
-.vs
+#######################################
+# wxWidgets build and temporary files #
+#######################################
+
+# Custom wxWidgets build directories (if any)
+wxwidgets-build/
+wxwidgets-temp/
+
+# Compiler-generated files
+*.o              # GCC/Clang object files
+*.obj            # MSVC object files
+*.exe            # Executables
+*.dll            # Dynamic-link libraries
+*.lib            # Static libraries (MSVC)
+*.exp            # Export files
+*.log            # Build logs
+*.pch            # Precompiled headers
+*.manifest       # Manifest files
+*.tlog           # MSBuild logs
+*.tmp            # Temp files
+*.cache          # Generic cache
+*.idb            # Incremental linker database
+*.pdb            # Debug symbol files
+*.iobj           # Intermediate object files
+*.ipdb           # Intermediate PDBs
+*.ilk            # Incremental linker files
+
+# Visual Studio-specific databases
+*.sdf            # SQL Server CE database file
+*.opensdf        # Newer VS code analysis DB
+*.db             # Generic DB files (used by intellisense, etc.)
+
+# Legacy Visual Studio files
+*.ncb            # Old Intellisense DB
+*.sbr            # Source browser data
+bin/
+build/
+.vs/
