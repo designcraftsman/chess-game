@@ -14,12 +14,10 @@
 
 MainFrame::MainFrame(const wxString& title):wxFrame(nullptr,wxID_ANY,title){
 	this->panel = new wxPanel(this);
-	this->panel->Center();
 	this->isPlayer1Turn = true;
 	this->player1 = new Entities::Player(1);
 	this->player2 = new Entities::Player(2);
 	this->board = new Entities::Board(player1,player2);
-	CreateStatusBar();
 	this->createBoard();
 }
 
@@ -54,7 +52,6 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 				this->possiblePositions = possible_movements;
 			}
 			else {
-				wxLogStatus("Piece type not found");
 				return;
 			}
 			this->createBoard();
@@ -88,7 +85,6 @@ void MainFrame::OnPieceSelected(wxMouseEvent& evt) {
 				this->possiblePositions = possible_movements;
 			}
 			else {
-				wxLogStatus("Piece type not found");
 				return;
 			}
 			this->createBoard();
@@ -107,14 +103,12 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				std::string previousPosition = piece->getPosition();
 				std::string targetPosition = this->movingPosition;
 				int targetId = this->board->getPiece(targetPosition);
-				wxLogStatus("Id of target position:" + targetId);
 				// Determine if it's a valid attack BEFORE moving
 				Entities::Piece* targetPiece = this->isPlayer1Turn
 					? this->player2->findPieceById(targetId)
 					: this->player1->findPieceById(targetId);
 
 				if (targetPiece != nullptr) {
-					wxLogStatus("Piece removed !");
 					if (this->isPlayer1Turn)
 						this->player2->removePiece(targetId);
 					else
@@ -144,7 +138,6 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 					? this->player2->findPieceById(targetId)
 					: this->player1->findPieceById(targetId);
 
-				wxLogStatus("Id of target position:" + targetId);
 				if (targetPiece != nullptr) {
 					wxLogStatus("Piece removed !");
 					if (this->isPlayer1Turn)
@@ -165,9 +158,6 @@ void MainFrame::OnPieceMoved(wxMouseEvent& evt) {
 				this->piecesPositions.clear();
 				this->createBoard();
 			}
-		}
-		else {
-			wxLogStatus("illegal move");
 		}
 	}
 }
@@ -224,7 +214,6 @@ std::string MainFrame::getPieceType(int idPiece) {
 			return "b_queen";
 		}
 		else {
-			wxLogStatus("Piece type not found");
 			return "Undefined";
 		}
 	}
@@ -249,7 +238,6 @@ std::string MainFrame::getPieceType(int idPiece) {
 			return "w_queen";
 		}
 		else {
-			wxLogStatus("Piece type not found");
 			return "Undefined";
 		}
 	}
@@ -262,8 +250,6 @@ void MainFrame::createBoard() {
 	this->panel->DestroyChildren();
 
 	int index = 40;
-	int x = 100;
-	int y = 40;
 	int id;
 
 	std::string itemColor = "white";
@@ -271,10 +257,12 @@ void MainFrame::createBoard() {
 	char letter = 'A';
 	char number = '1';
 
+	// Create grid sizer for 8x8 board
+	wxGridSizer* gridSizer = new wxGridSizer(8, 8, 0, 0);
+
 	for (int i = 1; i <= 64; i++) {
 		std::string position = std::string(1, letter) + std::string(1, number);
 
-		// Assign ID: piece ID if occupied, else generate a new one
 		if (this->board->getPiece(position) == 0) {
 			id = index++;
 		}
@@ -282,9 +270,10 @@ void MainFrame::createBoard() {
 			id = this->board->getPiece(position);
 		}
 
-		wxPanel* itemPanel = new wxPanel(panel, id, wxPoint(x, y), wxSize(60, 60));
+		// Use wxDefaultPosition to let sizer handle layout
+		wxPanel* itemPanel = new wxPanel(panel, id, wxDefaultPosition, wxSize(70, 70));
 
-		// Alternate square colors
+		// Your existing color logic (unchanged)
 		if (std::find(this->possiblePositions.begin(), this->possiblePositions.end(), position) != this->possiblePositions.end()) {
 			itemPanel->SetBackgroundColour(wxColour(135, 206, 250));
 			if (itemColor == "green")
@@ -301,15 +290,12 @@ void MainFrame::createBoard() {
 			itemColor = (i % 8 == 0) ? "white" : "green";
 		}
 
-
 		// Save in maps
 		this->boardPositions[position] = itemPanel;
 		this->piecesPositions[id] = position;
 
-		// Add piece image if there's one
+		// Your existing piece image logic unchanged
 		int pieceId = this->board->getPiece(position);
-
-
 		if (pieceId != 0) {
 			std::string pieceType = getPieceType(pieceId);
 			std::string imgPath;
@@ -363,21 +349,29 @@ void MainFrame::createBoard() {
 				}
 			}
 		}
-	
+
 		if (this->selectedPiece) {
 			itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceMoved, this);
-		}else {
+		}
+		else {
 			itemPanel->Bind(wxEVT_LEFT_DOWN, &MainFrame::OnPieceSelected, this);
 		}
 
 		number += 1;
-		x += 60;
+
+		// Add panel to grid sizer instead of positioning manually
+		gridSizer->Add(itemPanel, 1, wxEXPAND | wxALL, 0);
 
 		if (i % 8 == 0) {
-			x = 100;
-			y += 60;
 			letter += 1;
 			number = '1';
 		}
 	}
+
+	// Create a box sizer to center the grid sizer inside the panel
+	wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
+	boxSizer->Add(gridSizer, 0, wxALIGN_CENTER | wxALL, 20);
+
+	this->panel->SetSizer(boxSizer);
+	this->panel->Layout();
 }

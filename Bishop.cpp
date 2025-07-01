@@ -10,7 +10,7 @@ std::vector<std::string> Bishop::getPossibleMovements(int idPlayer) {
     std::string current_position = this->position;
     std::vector<std::string> positions;
 
-
+ 
     char letter = current_position[0];
     char number = current_position[1];
     
