@@ -43,6 +43,7 @@ void MenuFrame::startGameButton(wxMouseEvent& evt) {
 	mainFrame->SetClientSize(900, 600);
 	mainFrame->SetBackgroundColour(wxColour(200, 200, 200));
 	mainFrame->Center();
+	mainFrame->ShowFullScreen(true);
 	mainFrame->Show();
 }
 
@@ -55,6 +56,6 @@ void MenuFrame::OnPaint(wxPaintEvent& evt) {
 		wxImage img = backgroundBitmap.ConvertToImage();
 		img.Rescale(panelSize.GetWidth(), panelSize.GetHeight(), wxIMAGE_QUALITY_HIGH);
 		wxBitmap scaledBitmap(img);
-		dc.DrawBitmap(scaledBitmap, 0, 0, false);
+		dc.DrawBitmap(scaledBitmap, 0, 0, true);
 	}
 }

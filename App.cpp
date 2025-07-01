@@ -10,9 +10,9 @@ bool App::OnInit() {
 	wxImage::AddHandler(new wxJPEGHandler());
 	wxImage::AddHandler(new wxBMPHandler());
 	MenuFrame* menuFrame = new MenuFrame("DesignCraftsMan Menu");
-	menuFrame->SetClientSize(900, 600);
 	menuFrame->SetBackgroundColour(wxColour(77, 77, 77));
 	menuFrame->Center();
 	menuFrame->Show();
+	menuFrame->ShowFullScreen(true);
 	return true;
 }

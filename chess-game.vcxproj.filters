@@ -126,9 +126,6 @@
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="chess-game.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\..\..\..\Downloads\ChessAssets\b_Queen.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -148,6 +145,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\..\..\..\Downloads\menu-background.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Downloads\chess-game.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
